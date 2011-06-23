@@ -2,10 +2,13 @@
   "name": "clip",
   "description": "express meets the CLI",
   "author": "bradleymeck",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "keywords": ["CLI"],
   "dependencies": {
     "reconf": "0.1.x",
-    "optimist": "0.2.x"
+    "optimist": "0.2.x",
+    "prompt": "0.1.x",
+    "cliff": "0.1.x"
   },
   "main": "lib/clip.js"
 }

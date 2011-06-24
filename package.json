@@ -2,8 +2,10 @@
   "name": "clip",
   "description": "express meets the CLI",
   "author": "bradleymeck",
-  "version": "0.1.2",
-  "keywords": ["CLI"],
+  "version": "0.1.3",
+  "keywords": [
+    "CLI"
+  ],
   "dependencies": {
     "reconf": "0.1.x",
     "optimist": "0.2.x",
@@ -11,5 +13,8 @@
     "cliff": "0.1.x",
     "winston": "0.3.x"
   },
-  "main": "lib/clip.js"
+  "main": "lib/clip.js",
+  "bin": {
+    "clip": "./bin/clip.js"
+  }
 }

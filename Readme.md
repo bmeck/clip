@@ -3,18 +3,25 @@ Clip is a port of most of the features of Express to CLI programming.
 Many times we want to have complex use cases that are hard to express and routing along Express and Sugarskull seem to be an apt way of doing this.
 Another thing that we want to do in CLI programming often is use configuration files, flags, and parameters.
 
-# Requests
-
-req.env = process.env
-req.flags = optimist.argv
-req.config = nconf
-req.prompt = prompt
-
-res = winston + cliff
-
 # URLs
 
 Urls are partitioned with '/' with a starting '/' at all times, they are url encoded, and accept ':param' and '*'
+
+# Requests
+
+Request follow the `req,res,next` methodology.
+In the future chaining CLI requests should be easier (ie a clean + build could be done through clip by calling the corresponding urls).
+
+# Basic idea of handler arguments
+```
+req.env = process.env
+req.flags = require('optimist').argv
+req.config = require('nconf') + app.config(...)
+req.prompt = require('prompt')
+req.params = app.cli(':param') ...
+
+res = require('winston') + require('cliff')
+```
 
 ## require('clip')() -> app
 ## app.config

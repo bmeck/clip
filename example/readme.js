@@ -23,7 +23,7 @@ app.usage(function(req,res,next) {
   res.info('commands: helloworld, info');
 });
 
-app.cli(['/hello','/helloworld'], function(req,res,next) {
+app.cli(['hello','/helloworld'], function(req,res,next) {
   res.info('hello world!');
 });
 

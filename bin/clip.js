@@ -4,17 +4,28 @@
 var fs = require('fs');
 var path = require('path');
 var clip = require('../');
+var color = require('colors');
 var app = new clip();
 
 try {
   fs.statSync('./package.json');
 }
 catch (e) {
+  console.log('   create : '.blue + 'package.json');
   fs.writeFile('./package.json','');
 }
 
 app.config('package.json');
-app.cli('/create', function(req,res,next) {
+app.cli('/', function(req,res,next) {
+
+  try {
+    fs.statSync('./bin/');
+  }
+  catch (e) {
+    console.log('   create : '.blue + 'bin/');
+    fs.mkdirSync('./bin/',0700);
+  }
+
   var name = req.config.get('name') || 'app';
   var i = 0;
   for(;;) {
@@ -26,6 +37,7 @@ app.cli('/create', function(req,res,next) {
     }
     name = name.replace(/[-]\d+$/,'') + '-' + (i++);
   }
+  console.log('   create : '.blue + path.join('./bin/',name));
   fs.writeFileSync(path.join('./bin/',name),fs.readFileSync(path.join(__dirname,'../example/standard.js')));
   req.config.set('dependencies:clip','0.1.x');
   req.config.set('bin:'+name,'./bin/'+name);
@@ -34,14 +46,15 @@ app.cli('/create', function(req,res,next) {
     keywords.push('CLI')
   }
   req.config.set('keywords',keywords)
+  console.log('   edit   : '.green + 'package.json');
   req.config.save();
   res.info('Created new executable "'+name+'"')
 });
-app.usage('/create',function(req,res,next) {
+app.usage('/',function(req,res,next) {
   res.info('');
-  res.info('clip create');
+  res.info('clip');
   res.info('');
-  res.info('  adds a default executab le to ./bin and updates package.json');
+  res.info('  adds a default executable to ./bin and updates or creates the package.json file');
   res.end(404);
 });
 app.run();

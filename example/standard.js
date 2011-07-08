@@ -1,6 +1,6 @@
 #!/usr/local/bin/node
 
-var clip = require('clip');
+var clip = require('../');
 var app = new clip();
 
 app.config('.appconf',{
@@ -53,29 +53,33 @@ app.usage('/config',function config(req,res) {
 app.cli('/config/get/:id',function configGet(req,res) {
   res.info(req.params.id + ' = ' + (''+req.config.get(req.params.id)));
 });
-app.usage('/config/get',function configGetUsage(req,res) {
-  res.info('')
-  res.info('app config get' + ' <id>')
-  res.info('  Gets the value of a property in the app configuration')
-  res.info('  See `app config -h` for more details')
-  res.info('')
-  res.info('params')
-  res.info('  id - nconf compatible name of the property')
+app.usage(['/config/get','/config/get/:id'],function configGetUsage(req,res) {
+  res.help('')
+  res.help('app config get' + ' <id>')
+  res.help('  Gets the value of a property in the app configuration')
+  res.help('  See `app config -h` for more details')
+  res.help('')
+  res.help('params')
+  res.help('  id - nconf compatible name of the property')
+  res.help('')
+  if(!req.params.id) res.error('missing id');
 });
 
 app.cli('/config/set/:id/:value',function configSet(req,res) {
   req.config.set(req.params.id,req.params.value);
   req.config.save();
 });
-app.usage('/config/set',function configSetUsage(req,res) {
-  res.info('')
-  res.info('app config set' + ' <id> <value>')
-  res.info('  Sets the value of a property in the app configuration')
-  res.info('  See `app config -h` for more details')
-  res.info('')
-  res.info('params')
-  res.info('  id - nconf compatible name of the property')
-  res.info('  value - json compatible value of the property')
+app.usage(['/config/set','/config/set/:id','/config/set/:id/:value'],function configSetUsage(req,res) {
+  res.help('')
+  res.help('app config set' + ' <id> <value>')
+  res.help('  Sets the value of a property in the app configuration')
+  res.help('  See `app config -h` for more details')
+  res.help('')
+  res.help('params')
+  res.help('  id - nconf compatible name of the property')
+  res.help('  value - json compatible value of the property')
+  if(!req.params.id) res.error('Missing id');
+  if(!req.params.value) res.error('Missing value');
 });
 
 if(require.main) {
